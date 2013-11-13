@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
     rm = RequestManager(trth)
 
-    template = RequestTemplate('../templates/optionTAQ.yaml')
+    template = RequestTemplate('templates/optionTAQ.yaml')
     request = Request(template, 'BHP', 'BHP.AX', '2010-05-23', ('0:00', '23:59:59.999'), '/var/tmp/bhp.csv')
     
     print trth.SubmitRequest(request.generateRequestSpec(trth))

@@ -3,7 +3,7 @@ import yaml
 
 DEFAULT_CONFIG_LOCATION = os.path.expanduser('~/.trth')
 
-TRTH_VERSION = '5.7'
+TRTH_VERSION = '5.7.2'
 TRTH_WSDL_URL = 'https://trth-api.thomsonreuters.com/TRTHApi-%s/wsdl/TRTHApi.wsdl' % (TRTH_VERSION,)
 
 class Config(object):
