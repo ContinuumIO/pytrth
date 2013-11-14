@@ -85,7 +85,10 @@ class Operations(object):
 
     @expose
     def getinflightstatus(self):
-        print self._api.GetInflightStatus()
+        #print self._api.GetInflightStatus()
+        status = self._api.GetInflightStatus()
+        print "status:", status
+        print "active:", status.active, status.completed[0][0]
 
     @expose
     def getrequestresult(self, request_id):

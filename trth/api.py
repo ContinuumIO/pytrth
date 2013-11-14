@@ -43,6 +43,8 @@ class TRTHApi(object):
         )
         self._valid_methods = self._client.sd[0].ports[0][0].methods.keys()
         self._valid_types = [typedef[0].name for typedef in self._client.sd[0].types]
+        print "API methods:", self._valid_methods
+        print "API types:", self._valid_types        
 
     def __getattr__(self, name):
         """
@@ -54,6 +56,7 @@ class TRTHApi(object):
 
     def _dispatch(self, name):
         assert self._client and self._factory
+        print "dispatching:", name
 
         if name in self._valid_methods:
             return getattr(self._client.service, name)
