@@ -1,6 +1,8 @@
 Python Interface to the Thomson Reuters Tick History API
 ========================================================
 
+**Note: This is fork of the original project in https://github.com/brotchie/pytrth **
+
 **Note: This Python package is in no way affiliated with Thomson Reuters or any of its subsidiaries.**
 
 pytrth provides a lite wrapper around the Thomson Reuters Tick History (TRTH)
