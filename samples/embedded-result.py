@@ -11,8 +11,17 @@ import base64
 import trth
 
 logging.basicConfig(level=logging.INFO)
+# Setup the TRTH API
 api = trth.api.TRTHApi()
 api.setup()
+
+def write_data(data, filename):
+    """Write data into destination in uncompressed state."""
+    data = base64.decodestring(data)
+    data = gzip.io.BytesIO(data)
+    data = gzip.GzipFile(fileobj=data).read()
+    with open(filename, "w") as f:
+        f.write(data)
 
 template = trth.request.RequestTemplate('templates/optionTAQ.yaml')
 req = trth.request.Request(template, 'BHP', 'BHP.AX', '2013-05-23',
@@ -21,6 +30,7 @@ req = trth.request.Request(template, 'BHP', 'BHP.AX', '2013-05-23',
 req_id = api.SubmitRequest(req.generateRequestSpec(api))
 print "request '%s' submitted" % req_id
 
+
 # Wait until this request actually finishes
 while True:
     status = api.GetInflightStatus()
@@ -28,9 +38,7 @@ while True:
     if req_id in completed:
         print "request '%s' completed!" % req_id
         res = api.GetRequestResult(req_id)
-        data = base64.decodestring(res.data)
-        data = gzip.io.BytesIO(data)
-        print gzip.GzipFile(fileobj=data).read()
+        write_data(res.data, req.destination)
         break
     # Prevent a possible infinite loop. Should never happen.
     if status.active == 0: break
