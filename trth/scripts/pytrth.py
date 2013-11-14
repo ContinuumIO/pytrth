@@ -88,6 +88,10 @@ class Operations(object):
         print self._api.GetInflightStatus()
 
     @expose
+    def getrequestresult(self, request_id):
+        print self._api.GetRequestResult(request_id)
+
+    @expose
     def cleanup(self):
         print self._api.CleanUp()
 
