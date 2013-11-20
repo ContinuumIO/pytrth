@@ -85,6 +85,49 @@ class Request(object):
             displayMicroseconds=self.template.displayMicroseconds,
         )
 
+class LargeRequest(object):
+    def __init__(self, template, name, 
+                 riclist, daterange, timerange, destination):
+        self.name = name
+        self.riclist = riclist
+        self.daterange = daterange
+        self.timerange = timerange
+        self.template = template
+        self.destination = destination
+
+    def generateLargeRequestSpec(self, api):
+        return api.LargeRequestSpec(
+            friendlyName=self.name,
+            requestType=self.template.requestType,
+            instrumentList=api.ArrayOfInstrument(
+                instrument=[
+                    api.Instrument(code=ric) for ric in self.riclist]),
+            dateRange=api.DateRange(start=self.daterange[0],
+                                    end=self.daterange[1]),
+            timeRange=api.TimeRange(start=self.timerange[0],
+                                    end=self.timerange[1]),
+            messageTypeList=api.ArrayOfMessageType(
+                messageType=[
+                    api.MessageType(name=typename,
+                                    fieldList=api.ArrayOfString(
+                                        string=typefields 
+                                    )) for typename, typefields in self.template.fields.iteritems()
+            ]),
+            requestInGMT=False,
+            displayInGMT=False,
+            marketDepth=self.template.marketDepth,
+            splitSize=self.template.splitSize,
+            delivery=self.template.delivery,
+            sortType=self.template.sortType,
+            fileFormat=self.template.fileFormat,
+            dateFormat=self.template.dateFormat,
+            disableDataPersistence=self.template.disableDataPersistence,
+            includeCurrentRIC=self.template.includeCurrentRIC,
+            applyCorrections=self.template.applyCorrections,
+            displayMicroseconds=self.template.displayMicroseconds,
+        )
+
+
 class RequestTemplate(object):
     """
     Simple proxy sorrounding a yaml request
