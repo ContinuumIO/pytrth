@@ -10,7 +10,7 @@ fields:
 disableHeader: False
 marketDepth: 0
 splitSize: 50
-delivery: Pull
+delivery: Push
 sortType: RICSequence
 fileFormat: Single
 dateFormat: YYYYMMDD
@@ -19,7 +19,7 @@ includeCurrentRIC: False
 applyCorrections: False
 displayMicroseconds: True
 
-hostname: 81.203.0.231
+hostname: 162.243.100.184
 username: trth
 password: testing23
-path: results
+respath: results
