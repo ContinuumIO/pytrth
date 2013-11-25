@@ -1,0 +1,25 @@
+templateName: ftp PUSH
+requestType: TimeAndSales
+fields:
+    Trade:
+        - Price
+        - Volume
+    Quote:
+        - Bid Price
+        - Ask Price
+disableHeader: False
+marketDepth: 0
+splitSize: 50
+delivery: Pull
+sortType: RICSequence
+fileFormat: Single
+dateFormat: YYYYMMDD
+disableDataPersistence: False
+includeCurrentRIC: False
+applyCorrections: False
+displayMicroseconds: True
+
+hostname: 81.203.0.231
+username: trth
+password: testing23
+path: results

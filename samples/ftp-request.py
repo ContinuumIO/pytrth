@@ -23,12 +23,17 @@ def write_data(data, filename):
     with open(filename, "w") as f:
         f.write(data)
 
-template = trth.request.RequestTemplate('templates/ftpPULL.yaml')
+# Read the template data
+template = trth.request.RequestTemplate('templates/ftpPUSH.yaml')
+# Specify the details of the FTP server
+api.SetFTPDetails(template.hostname, template.username,
+                  template.password, template.path)
+# Build the request
 req = trth.request.LargeRequest(
     template, 'BHP', ('BHP.AX',), ('2013-05-23', '2013-05-24'),
     ('0:00', '23:59:59.999'), '/var/tmp/bhp.csv')
-
 large_req = req.generateLargeRequestSpec(api)
+# Submit it
 req_id = api.SubmitFTPRequest(large_req)
 print "request '%s' submitted" % req_id
 
