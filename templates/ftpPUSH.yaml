@@ -22,4 +22,4 @@ displayMicroseconds: True
 hostname: 162.243.100.184
 username: trth
 password: testing32
-respath: .
+path: .
