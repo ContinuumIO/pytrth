@@ -55,7 +55,8 @@ class MyHandler(FTPHandler):
         if remove_incoming:
             os.unlink(file)
 
-if __name__ == "__main__":
+
+def main():
     # Check that incoming and hdf5 dirs are created
     if not os.path.exists(incoming_dir): os.mkdir(incoming_dir)
     if not os.path.exists(hdf5_dir): os.mkdir(hdf5_dir)
@@ -69,3 +70,6 @@ if __name__ == "__main__":
 
     # And listen forever
     server.serve_forever()
+
+if __name__ == "__main__":
+    main()

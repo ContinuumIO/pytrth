@@ -36,7 +36,7 @@ local_ftp:
   listen_addr: 0.0.0.0  # listen to everything
   public_ip: x.x.x.x  # your public IP here
   port: 2121
-  incoming_dir: /Users/faltet/ftp-trth
+  incoming_dir: /home/faltet/ftp-trth
   remove_incoming: False  # whether an incoming file should be removed after processed
   hdf5_dir: /home/faltet/hdf5-trth
 
