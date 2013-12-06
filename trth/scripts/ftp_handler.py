@@ -33,13 +33,13 @@ class MyHandler(FTPHandler):
     def on_file_received(self, fname):
         # Append the file into an HDF5 file
         #print "received:", fname
-        if fname.endswith("csv.gz"):
+        if "report" in fname:
+            # Do not do nothing with the report
+            return
+        elif fname.endswith("csv.gz"):
             df = pd.read_csv(fname, compression='gzip')
         elif fname.endswith("csv"):
             df = pd.read_csv(fname)
-        elif "report" in fname:
-            # Do not do nothing with the report
-            return
         else:
             # Any other extension will be ignored
             return
