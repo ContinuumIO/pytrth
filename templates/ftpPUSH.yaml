@@ -18,8 +18,3 @@ disableDataPersistence: False
 includeCurrentRIC: False
 applyCorrections: False
 displayMicroseconds: True
-
-hostname: 162.243.100.184
-username: trth
-password: testing32
-path: .

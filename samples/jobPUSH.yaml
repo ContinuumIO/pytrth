@@ -1,0 +1,5 @@
+job_name: BHP
+template: templates/ftpPUSH.yaml
+RICs: [BHP.AX, ]
+date_range: [2013-05-23, 2013-05-24]
+time_range: ['0:00', '23:59:59.999']

@@ -18,12 +18,15 @@ class Config(object):
         credentials = self._data['credentials']
         return credentials['username'], credentials['password']
 
+    def get_local_ftp(self):
+        return self._data['local_ftp']
+
     def get_wsdl_url(self):
         return TRTH_WSDL_URL
 
     def get_trth_version(self):
         return TRTH_VERSION
-        
+
 
 def load_default_config():
     config = Config()

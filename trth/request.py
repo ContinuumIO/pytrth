@@ -38,19 +38,11 @@ class RequestManager(object):
     def process_queue(self):
         status = self._api.GetInflightStatus()
         capacity = status.limit - status.active
-        
-        log.info('Inflight Status active: %i active %i.', status.active, status.limit)
-        #if capacity:
-            #with self._db:
-                #c = self._db.execute('SELECT 
 
-        #requestID = trth.SubmitRequest(request.generateRequestSpec(trth))
-        #with self._db:
-        #    c = self._db.execute('UPDATE requests SET requestid=?, state=\'submitted\' WHERE id=?', (requestID, rowid))
-        #return (rowid, requestID)
+        log.info('Inflight Status active: %i active %i.', status.active, status.limit)
 
 class Request(object):
-    def __init__(self, template, name, 
+    def __init__(self, template, name,
                  ric, date, timerange, destination):
         self.name = name
         self.ric = ric
@@ -67,7 +59,7 @@ class Request(object):
                 messageType=[
                     api.MessageType(name=typename,
                                     fieldList=api.ArrayOfString(
-                                        string=typefields 
+                                        string=typefields
                                     )) for typename, typefields in self.template.fields.iteritems()
             ]),
             date=self.date,
@@ -86,14 +78,12 @@ class Request(object):
         )
 
 class LargeRequest(object):
-    def __init__(self, template, name, 
-                 riclist, daterange, timerange, destination):
+    def __init__(self, template, name, riclist, daterange, timerange):
         self.name = name
         self.riclist = riclist
         self.daterange = daterange
         self.timerange = timerange
         self.template = template
-        self.destination = destination
 
     def generateLargeRequestSpec(self, api):
         return api.LargeRequestSpec(
@@ -110,7 +100,7 @@ class LargeRequest(object):
                 messageType=[
                     api.MessageType(name=typename,
                                     fieldList=api.ArrayOfString(
-                                        string=typefields 
+                                        string=typefields
                                     )) for typename, typefields in self.template.fields.iteritems()
             ]),
             requestInGMT=False,
@@ -153,7 +143,7 @@ if __name__ == '__main__':
 
     template = RequestTemplate('templates/optionTAQ.yaml')
     request = Request(template, 'BHP', 'BHP.AX', '2010-05-23', ('0:00', '23:59:59.999'), '/var/tmp/bhp.csv')
-    
+
     print trth.SubmitRequest(request.generateRequestSpec(trth))
 #    print rm.submit_request(request)
 

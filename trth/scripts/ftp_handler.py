@@ -19,8 +19,8 @@ ftp_cfg = config['local_ftp']
 
 trth_user_prefix = cred_cfg['username']
 
-ftp_addr = ftp_cfg['ftp_addr']
-ftp_port = int(ftp_cfg['ftp_port'])
+ftp_addr = ftp_cfg['listen_addr']
+ftp_port = int(ftp_cfg['port'])
 incoming_dir = ftp_cfg['incoming_dir']
 remove_incoming = bool(ftp_cfg['remove_incoming'])
 hdf5_dir = ftp_cfg['hdf5_dir']
@@ -59,11 +59,13 @@ if __name__ == "__main__":
     # Check that incoming and hdf5 dirs are created
     if not os.path.exists(incoming_dir): os.mkdir(incoming_dir)
     if not os.path.exists(hdf5_dir): os.mkdir(hdf5_dir)
+
+    # Setup the FTP server
     authorizer = DummyAuthorizer()
     authorizer.add_user(username, password, incoming_dir, perm="elradfmw")
-
     handler = MyHandler
     handler.authorizer = authorizer
-
     server = FTPServer((ftp_addr, ftp_port), handler)
+
+    # And listen forever
     server.serve_forever()
