@@ -69,4 +69,10 @@ the ftpPUSH.yaml above is the template where you can set the full
 properties of the TRTH query.  In general, you should put in the
 template the invariant parameters and the rest in job file.
 
+Once the job has been submitted, you can have a look at how it is
+going with the command:
+
+  $ pytrth getinflightstatus
+
+
 That's all folks!  Happy TRTH querying!
