@@ -29,7 +29,8 @@ def main():
     if template.delivery == "Push":
         # Specify the details of the FTP server
         fl = api._config.get_local_ftp()
-        api.SetFTPDetails(fl['public_ip'], fl['username'], fl['password'], None)
+        api.SetFTPDetails("%s:%s" % (fl['public_ip'], fl['port']),
+                          fl['username'], fl['password'], None)
 
     # Build the request
     req = trth.request.LargeRequest(
