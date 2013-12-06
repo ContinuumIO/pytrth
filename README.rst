@@ -34,11 +34,11 @@ local_ftp:
   username: trth  # the ftp username
   password: testing32  # the password for the ftp server
   listen_addr: 0.0.0.0  # listen to everything
-  public_ip: x.x.x.x  # your public IP here
-  port: 2121
-  incoming_dir: /home/faltet/ftp-trth
+  public_ip: 85.114.145.182  # your public IP here
+  port: 2121  # the port where the ftp server listens
+  incoming_dir: /home/faltet/trth/incoming
   remove_incoming: False  # whether an incoming file should be removed after processed
-  hdf5_dir: /home/faltet/hdf5-trth
+  hdf5_dir: /home/faltet/trth/hdf5
 
 
 You can test your connection to TRTH by requesting the landing speed

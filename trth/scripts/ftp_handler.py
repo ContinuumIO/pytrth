@@ -30,21 +30,25 @@ password = ftp_cfg['password']
 # Define a callback for download files
 class MyHandler(FTPHandler):
 
-    def on_file_received(self, file):
+    def on_file_received(self, fname):
         # Append the file into an HDF5 file
-        #print "received:", file
-        if file.endswith("csv.gz"):
-            df = pd.read_csv(file, compression='gzip')
-        elif file.endswith("csv"):
-            df = pd.read_csv(file)
+        #print "received:", fname
+        if fname.endswith("csv.gz"):
+            df = pd.read_csv(fname, compression='gzip')
+        elif fname.endswith("csv"):
+            df = pd.read_csv(fname)
+        elif "report" in fname:
+            # Do not do nothing with the report
+            return
         else:
             # Any other extension will be ignored
             return
 
         # Get the name of the file
-        hdfname = os.path.basename(file)
-        _, hdfname = hdfname.split(trth_user_prefix + "-")
-        hdfname = os.path.join(hdf5_dir, hdfname + ".h5")
+        fn = os.path.basename(fname)
+        _, fn = fn.split(trth_user_prefix + "-")
+        fn = fn[:fn.find('.')]
+        hdfname = os.path.join(hdf5_dir, fn + ".h5")
 
         # Open the HDFStore and append the data there
         hsb = pd.HDFStore(hdfname, complevel=9, complib='blosc')
@@ -53,7 +57,7 @@ class MyHandler(FTPHandler):
 
         # Remove the downloaded file
         if remove_incoming:
-            os.unlink(file)
+            os.unlink(fname)
 
 
 def main():
