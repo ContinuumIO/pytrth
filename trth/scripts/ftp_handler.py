@@ -2,22 +2,32 @@
 # The files will be parsed and stored in HDF5 files
 #
 
-import os.path
+import os, os.path
+import yaml
 import pandas as pd
 
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
-trth_user_prefix = "francesc@continuum.io"
-ftp_addr = "0.0.0.0"   # means listen from everywhere
-ftp_port = 2121
-incoming_dir = "/Users/faltet/ftp-trth"
-incoming_remove = False  # whether the processed incoming file should removed
-hdf5_dir = "/Users/faltet/hdf5"
-username = "trth"
-password = "testing32"
+# Read the params from configuration files
+default_config = os.path.expanduser('~/.trth')
+config = yaml.load(file(default_config, 'rb'))
 
+cred_cfg = config['credentials']
+ftp_cfg = config['local_ftp']
+
+trth_user_prefix = cred_cfg['username']
+
+ftp_addr = ftp_cfg['ftp_addr']
+ftp_port = int(ftp_cfg['ftp_port'])
+incoming_dir = ftp_cfg['incoming_dir']
+remove_incoming = bool(ftp_cfg['remove_incoming'])
+hdf5_dir = ftp_cfg['hdf5_dir']
+username = ftp_cfg['username']
+password = ftp_cfg['password']
+
+# Define a callback for download files
 class MyHandler(FTPHandler):
 
     def on_file_received(self, file):
