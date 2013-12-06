@@ -12,9 +12,9 @@ setup(name='pytrth',
     install_requires=['suds', 'pyyaml', 'pandas', 'pyftpdlib'],
     entry_points={
         'console_scripts' : [
-            'ftp_handler = trth.scripts.ftp_handler:main'
-            'ftp_push = trth.scripts.ftp_push:main'
-            'pytrth = trth.scripts.pytrth:main'
+            'ftp_handler = trth.scripts.ftp_handler:main',
+            'ftp_push = trth.scripts.ftp_push:main',
+            'pytrth = trth.scripts.pytrth:main',
         ]
     }
 )
