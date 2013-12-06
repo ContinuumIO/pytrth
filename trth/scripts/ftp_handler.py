@@ -44,10 +44,13 @@ class MyHandler(FTPHandler):
             # Any other extension will be ignored
             return
 
-        # Get the name of the file
+        # Get the name of the final HDF5 file
         fn = os.path.basename(fname)
         _, fn = fn.split(trth_user_prefix + "-")
-        fn = fn[:fn.find('.')]
+        fn = fn[:fn.find('.')]     # remove the extension
+        if '-part' in fn:
+            # Get rid of the 'partXXX'
+            fn = fn[:fn.rfind('-')]
         hdfname = os.path.join(hdf5_dir, fn + ".h5")
 
         # Open the HDFStore and append the data there
