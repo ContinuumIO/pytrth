@@ -36,10 +36,10 @@ containing the following::
     ftp_port: 2121
     incoming_dir: /Users/faltet/ftp-trth
     remove_incoming: False  # whether an incoming file should be removed after processed
-    hdf5_dir: /Users/faltet/hdf5-trth
+    hdf5_dir: /home/faltet/hdf5-trth
 
 
 You can test your connection to TRTH by requesting the landing speed
 guide page::
-  
+
   pytrth getpage THOMSONREUTERS
