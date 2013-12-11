@@ -65,20 +65,23 @@ handler with::
   $ ftp_handler
 
 Then, in another shell (not necessarily under tmux), create a new
-directory and move into it::
+directory for hosting the downloaded data and execute these actions::
 
   $ mkdir ~/trth
   $ cd ~/trth
+  $ cp -r $PYTRTH_SOURCES/templates/ .
+  $ cp $PYTRTH_SOURCES/samples/jobPUSH.yaml myjob.yaml
 
-Now, have a look at the 'jobPUSH.yaml' file in the samples/ directory
-and copy it to the '~/trth' directory and taylor it to your needs.
-Launch the query with::
+Now, edit 'myjob.yaml' and 'templates/ftpPUSH.yaml' and taylor them to
+your needs.  After that, launch the query with::
 
   $ ftp_push myjob.yaml
 
-That's all.  After query completion, the result will appear in the
-'trth/hdf5' directory automagically (the CSV files will be kept in
-'trth/incoming').  You can submit as many queries as you want; just
-keep in mind that the ftp_handler service must always be active.
+That's all.  After query completion, the intermediate CSV files will
+will appear in the incoming directory ('trth/incoming' in our example)
+and then automagically converted into HDF5 files in the hdf5 directory
+('trth/hdf5' in our example).  You can submit as many queries as you
+want; just keep in mind that the ftp_handler service must always be
+active.
 
 That's all folks!  Happy TRTH querying.
