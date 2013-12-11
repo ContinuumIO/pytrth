@@ -1,5 +1,6 @@
 pytrth
 pandas>=0.12
+tables>=2.4
 suds>=0.4
 pyftpdlib>=1.3
 pyyaml>=3.10

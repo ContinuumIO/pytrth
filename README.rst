@@ -19,6 +19,14 @@ where appropriate. The TRTHApi class in src/api.py wraps this suds
 interface with an even higher level interface, greatly easing the
 creation of TRTH API calls.
 
+Install
+=======
+
+Installation goes as usual::
+
+  $ python setup.py install
+
+
 Usage
 =====
 
@@ -34,12 +42,39 @@ containing the following::
     password: testing32  # the password for the ftp server
     ftp_addr: 0.0.0.0  # listen to everywhere
     ftp_port: 2121
-    incoming_dir: /Users/faltet/ftp-trth
+    incoming_dir: /home/faltet/ftp-trth
     remove_incoming: False  # whether an incoming file should be removed after processed
     hdf5_dir: /home/faltet/hdf5-trth
 
-
-You can test your connection to TRTH by requesting the landing speed
+You can test your credentials for TRTH by requesting the landing speed
 guide page::
 
-  pytrth getpage THOMSONREUTERS
+  $ pytrth getpage THOMSONREUTERS
+
+If that works, then you are ready for querying TRTH and start
+populating your own HDF5 files out of the CSV resulting files.
+
+To start with, open a new terminal using tmux or similar so that the
+session won't die even if the connection is lost and run the FTP
+handler with::
+
+  $ ftp_handler
+
+Then, in another shell (not necessarily under tmux), create a new
+directory and move into it::
+
+  $ mkdir ~/trth
+  $ cd ~/trth
+
+Now, have a look at the 'jobPUSH.yaml' file in the samples/ directory
+and copy it to the '~/trth' directory and taylor it to your needs.
+Launch the query with::
+
+  $ ftp_push myjob.yaml
+
+That's all.  After query completion, the result will appear in the
+'trth/hdf5' directory automagically (the CSV files will be kept in
+'trth/incoming').  You can submit as many queries as you want; just
+keep in mind that the ftp_handler service must always be active.
+
+Happy HDF5 database population! 
