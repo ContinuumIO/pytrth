@@ -19,8 +19,8 @@ ftp_cfg = config['local_ftp']
 
 trth_user_prefix = cred_cfg['username']
 
-ftp_addr = ftp_cfg['ftp_addr']
-ftp_port = int(ftp_cfg['ftp_port'])
+ftp_addr = ftp_cfg['listen_addr']
+ftp_port = int(ftp_cfg['port'])
 incoming_dir = ftp_cfg['incoming_dir']
 remove_incoming = bool(ftp_cfg['remove_incoming'])
 hdf5_dir = ftp_cfg['hdf5_dir']
@@ -30,21 +30,28 @@ password = ftp_cfg['password']
 # Define a callback for download files
 class MyHandler(FTPHandler):
 
-    def on_file_received(self, file):
+    def on_file_received(self, fname):
         # Append the file into an HDF5 file
-        #print "received:", file
-        if file.endswith("csv.gz"):
-            df = pd.read_csv(file, compression='gzip')
-        elif file.endswith("csv"):
-            df = pd.read_csv(file)
+        #print "received:", fname
+        if "report" in fname:
+            # Do not do nothing with the report
+            return
+        elif fname.endswith("csv.gz"):
+            df = pd.read_csv(fname, compression='gzip')
+        elif fname.endswith("csv"):
+            df = pd.read_csv(fname)
         else:
             # Any other extension will be ignored
             return
 
-        # Get the name of the file
-        hdfname = os.path.basename(file)
-        _, hdfname = hdfname.split(trth_user_prefix + "-")
-        hdfname = os.path.join(hdf5_dir, hdfname + ".h5")
+        # Get the name of the final HDF5 file
+        fn = os.path.basename(fname)
+        _, fn = fn.split(trth_user_prefix + "-")
+        fn = fn[:fn.find('.')]     # remove the extension
+        if '-part' in fn:
+            # Get rid of the 'partXXX'
+            fn = fn[:fn.rfind('-')]
+        hdfname = os.path.join(hdf5_dir, fn + ".h5")
 
         # Open the HDFStore and append the data there
         hsb = pd.HDFStore(hdfname, complevel=9, complib='blosc')
@@ -53,17 +60,23 @@ class MyHandler(FTPHandler):
 
         # Remove the downloaded file
         if remove_incoming:
-            os.unlink(file)
+            os.unlink(fname)
 
-if __name__ == "__main__":
+
+def main():
     # Check that incoming and hdf5 dirs are created
     if not os.path.exists(incoming_dir): os.mkdir(incoming_dir)
     if not os.path.exists(hdf5_dir): os.mkdir(hdf5_dir)
+
+    # Setup the FTP server
     authorizer = DummyAuthorizer()
     authorizer.add_user(username, password, incoming_dir, perm="elradfmw")
-
     handler = MyHandler
     handler.authorizer = authorizer
-
     server = FTPServer((ftp_addr, ftp_port), handler)
+
+    # And listen forever
     server.serve_forever()
+
+if __name__ == "__main__":
+    main()

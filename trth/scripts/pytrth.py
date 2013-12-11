@@ -85,10 +85,10 @@ class Operations(object):
 
     @expose
     def getinflightstatus(self):
-        #print self._api.GetInflightStatus()
-        status = self._api.GetInflightStatus()
-        print "status:", status
-        print "active:", status.active, status.completed[0][0]
+        print self._api.GetInflightStatus()
+        # status = self._api.GetInflightStatus()
+        # print "status:", status
+        # print "active:", status.active
 
     @expose
     def getrequestresult(self, request_id):
@@ -103,14 +103,14 @@ class Operations(object):
         print self._api.GetPage(ric, date, time)
 
     def get_exposed(self):
-        exposed = [f.__name__ for f in 
+        exposed = [f.__name__ for f in
                     expose.exposed & set(self.__class__.__dict__.values())]
         exposed.sort()
         return exposed
 
 def main():
     logging.basicConfig(level=logging.INFO)
- 
+
     operations = Operations()
 
     if len(sys.argv) < 2:

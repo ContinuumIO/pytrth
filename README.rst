@@ -19,6 +19,7 @@ where appropriate. The TRTHApi class in src/api.py wraps this suds
 interface with an even higher level interface, greatly easing the
 creation of TRTH API calls.
 
+
 Install
 =======
 
@@ -30,21 +31,24 @@ Installation goes as usual::
 Usage
 =====
 
-TRTH credentials are read from ~/.trth which should be a YAML file
-containing the following::
+TRTH credentials and details for the FTP local server are read from
+~/.trth which should be a YAML file containing the following:
 
-  credentials:
-    username: *username*
-    password: *password*
-  # details for the local FTP server (FTP PUSH method)
-  local_ftp:
-    username: trth  # the ftp username
-    password: testing32  # the password for the ftp server
-    ftp_addr: 0.0.0.0  # listen to everywhere
-    ftp_port: 2121
-    incoming_dir: /home/faltet/ftp-trth
-    remove_incoming: False  # whether an incoming file should be removed after processed
-    hdf5_dir: /home/faltet/hdf5-trth
+# TRTH credentials:
+credentials:
+  username: *username*
+  password: *password*
+# details for the local FTP server (FTP PUSH method)
+local_ftp:
+  username: trth  # the ftp username
+  password: testing32  # the password for the ftp server
+  listen_addr: 0.0.0.0  # listen to everything
+  public_ip: 85.114.145.182  # your public IP here
+  port: 2121  # the port where the ftp server listens
+  incoming_dir: /home/faltet/trth/incoming
+  remove_incoming: False  # whether an incoming file should be removed after processed
+  hdf5_dir: /home/faltet/trth/hdf5
+
 
 You can test your credentials for TRTH by requesting the landing speed
 guide page::
@@ -77,4 +81,4 @@ That's all.  After query completion, the result will appear in the
 'trth/incoming').  You can submit as many queries as you want; just
 keep in mind that the ftp_handler service must always be active.
 
-Happy HDF5 database population! 
+That's all folks!  Happy TRTH querying.
